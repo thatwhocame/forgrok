@@ -1,0 +1,109 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ForceCalculator.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="500"
+        x:Class="ForceCalculator.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="ForceCalculator"
+        RequestedThemeVariant="Light">
+
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+             to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainWindowViewModel/>
+  </Design.DataContext>
+
+  <Grid ColumnDefinitions="4*, 200">
+    <Image Margin="10" Stretch="Uniform" Source="{Binding ImageBitmap}" Grid.Column="0"/>
+
+    <StackPanel Grid.Column="1" Background="WhiteSmoke">
+      <TextBlock Margin="3" FontWeight="Bold" FontSize="16">Параметры</TextBlock>
+
+      <TextBlock Margin="3">Расстановка опор</TextBlock>
+      <ComboBox Margin="3" HorizontalAlignment="Stretch" SelectedIndex="{Binding SupportsBuilderType}">
+        <ComboBoxItem>Хаотичная</ComboBoxItem>
+        <ComboBoxItem>Две линии</ComboBoxItem>
+        <ComboBoxItem>Круг</ComboBoxItem>
+      </ComboBox>
+      
+      <TextBlock Margin="3,10,3,0">Количество опор</TextBlock>
+      <Slider TickPlacement="BottomRight" Margin="3,0,3,0" TickFrequency="1" IsSnapToTickEnabled="True" Minimum="3" Maximum="16" 
+              Value="{Binding SupportNumber}"/>
+      <TextBlock Margin="3,0,3,3" Text="{Binding SupportNumber}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+
+      <TextBlock Margin="3,10,3,3">Расстановка роботов</TextBlock>
+      <ComboBox Margin="3" HorizontalAlignment="Stretch" SelectedIndex="{Binding RobotsBuilderType}">
+        <ComboBoxItem>Хаотичная</ComboBoxItem>
+        <ComboBoxItem>Одна линия</ComboBoxItem>
+        <ComboBoxItem>Две линии</ComboBoxItem>
+        <ComboBoxItem>По периметру</ComboBoxItem>
+        <ComboBoxItem>По кругу</ComboBoxItem>
+      </ComboBox>
+      
+      <TextBlock Margin="3,20,3,0">Количество роботов</TextBlock>
+      <Slider TickPlacement="BottomRight" Margin="3,0,3,0" TickFrequency="1" IsSnapToTickEnabled="True" Minimum="0" Maximum="16" 
+              Value="{Binding RobotNumber}"/>
+      <TextBlock Margin="3,0,3,3" Text="{Binding RobotNumber}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+      <DockPanel>
+        <TextBlock Margin="3" VerticalAlignment="Center">Вес груза</TextBlock>
+        <TextBox Text="{Binding GravityForce}" Margin="3"/>
+      </DockPanel>
+
+	  <TextBlock Margin="0 20 0 0">Равномерное решение:</TextBlock>
+		
+      <DockPanel>
+        <TextBlock Margin="3" VerticalAlignment="Center" 
+                   TextAlignment="Center" TextWrapping="Wrap">
+          Сила роботов
+        </TextBlock>
+        <TextBox Text="{Binding RobotsForce}" Margin="3" IsReadOnly="True"/>
+      </DockPanel>
+
+	  <DockPanel>
+		  <TextBlock Margin="3" VerticalAlignment="Center"
+					 TextAlignment="Center" TextWrapping="Wrap">
+			  Платформа валидна
+		  </TextBlock>
+		  <TextBox Text="{Binding IsValid}" Margin="3" IsReadOnly="True"/>
+	  </DockPanel>
+
+		
+		
+	  <TextBlock Margin="0 20 0 0">Симплекс решение:</TextBlock>
+      
+	  <DockPanel>
+	  	<TextBlock Margin="3" VerticalAlignment="Center"
+	  			   TextAlignment="Center" TextWrapping="Wrap">
+	  		Сила роботов
+	  	</TextBlock>
+	  	<TextBox Text="{Binding SimplexRobotsForce}" Margin="3" IsReadOnly="True"/>
+	  </DockPanel>
+      
+	  <DockPanel>
+	  	<TextBlock Margin="3" VerticalAlignment="Center"
+	  			   TextAlignment="Center" TextWrapping="Wrap">
+	  		Платформа валидна
+	  	</TextBlock>
+	  	<TextBox Text="{Binding SimplexIsValid}" Margin="3" IsReadOnly="True"/>
+	  </DockPanel>
+		
+		
+      
+      <Button Margin="3" Content="Перестроить" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" 
+              Command="{Binding UpdateImageCommand}"/>
+      <Button Margin="3" Content="Сохранить изображение" IsEnabled="{Binding IsSaveEnabled}"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+              HorizontalContentAlignment="Center" Command="{Binding SaveImageCommand}"/>
+      <Button Margin="3" Content="Открыть папку" HorizontalContentAlignment="Center"
+              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+              Command="{Binding OpenImageDirectoryCommand}"/>
+    </StackPanel>
+
+  </Grid>
+
+</Window>
